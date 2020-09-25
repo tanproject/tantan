@@ -11,4 +11,4 @@ class User(models.Model):
     avatar = models.CharField(max_length=256, verbose_name='个人形象')
     location = models.CharField(max_length=10, verbose_name='常居地')
     class Meta:
-        db_table = 'axf_user'
+        db_table = 'user'

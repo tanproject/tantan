@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from UserApp import apis as user_api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+path('api/user/vcode/fetch', user_api.Fetch_vcode),
 ]
