@@ -25,7 +25,7 @@ def send_vcode(phonenum):
         if cache.get(key):
             return True
         else:
-            v_code = str(random.randint(100000, 999999))
+            vcode = str(random.randint(100000, 999999))
             '''需要将上面的验证码添加到缓存，并且多给些时间'''
-            cache.set(key,v_code,600)
-            return send_msg(phonenum,v_code)
+            cache.set(key,vcode,600)
+            return send_msg(phonenum,vcode)

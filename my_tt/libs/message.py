@@ -10,13 +10,13 @@ import sys
 from my_tt import config
 
 
-# v_code = str(random.randint(100000, 999999))
+# vcode = str(random.randint(100000, 999999))
 
 
 
 
-def send_msg(phonenum,v_code):
-    vars = json.dumps({'code': v_code}) #验证码需要处理
+def send_msg(phonenum,vcode):
+    vars = json.dumps({'code': vcode}) #验证码需要处理
     timestamp = int(time.time())    #需要用到模块不宜放在cnfig下
     args = {
         'appid': config.sd_appid,
