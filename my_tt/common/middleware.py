@@ -14,7 +14,6 @@ class LoginRequiredMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
         '''检查当前访问接口是否在白名单里'''
-        print(1231243)
         if request.path in self.white_list:
             '''如果不在直接返回，停止执行此函数'''
             return
@@ -22,4 +21,4 @@ class LoginRequiredMiddleware(MiddlewareMixin):
             '''获取并检查session的user_id'''
             user_id = request.session.get('user_id')
             if not user_id:
-                return JsonResponse()
+                return JsonResponse({'code':1002,'data':"用户未登录！"})

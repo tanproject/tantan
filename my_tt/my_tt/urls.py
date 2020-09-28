@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/user/vcode/fetch', user_api.fetch_vcode),
     path('api/user/vcode/submit',user_api.submit_vcode),
     path('api/user/profile/show',user_api.show_profile),
+    path('api/user/profile/update',user_api.update_profile),
 ]
