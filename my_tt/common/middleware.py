@@ -10,6 +10,7 @@ class LoginRequiredMiddleware(MiddlewareMixin):
         '/api/user/vcode/fetch',
         '/api/user/vcode/submit',
         '/qiniu/callback',
+        '/',
     ]
 
     def process_request(self, request):
