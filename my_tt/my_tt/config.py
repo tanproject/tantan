@@ -14,9 +14,10 @@ QN_ACCESS_KEY = 'kgtGHMPLUtKBqkMbA75j5Fu_3GHAASVfh6m50TD4'
 QN_SECRET_KEY = 'fb7q_ca7gKwoUayr8ceDd9qrP7--bFEbJoibh54G'
 QN_CALLBACK_URL = '49.234.220.221:8000/qiniu/callback'
 QN_CALLBACK_DOMAIN = '49.234.220.221:8000'
-# '''Redis 配置'''
-# REDIS = {
-#     'host': '49.234.220.221',
-#     'port': 6379,
-#     'db': 2,
-# }
+
+'''Redis 配置'''
+REDIS = {
+    'host': '49.234.220.221',
+    'port': 6379,
+    'db': 2,
+}

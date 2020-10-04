@@ -1,6 +1,7 @@
 import re
 import random
 import json
+from libs.Redis import rds
 
 from libs.message import send_msg
 
@@ -22,7 +23,7 @@ def send_vcode(phonenum):
     else:
         key = f'v_code{phonenum}'  # 将手机号设置为key，为了便于区分这是验证码的key，加上前缀
         '''检查缓存里是否有验证码，防止用户频繁申请验证码'''
-        if cache.get(key):
+        if rds.get(key):
             return True
         else:
             vcode = str(random.randint(100000, 999999))

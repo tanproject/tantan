@@ -1,11 +1,15 @@
 from django.http import JsonResponse
 from UserApp.logics import send_vcode
-from django.core.cache import cache
+from libs.Redis import rds
 from UserApp.models import User, Profile
 from UserApp.forms import Userform
 from UserApp.forms import Profileform
 from libs.qiniu_cloud import gen_token
 from libs.qiniu_cloud import get_res_url
+from libs.http import render_json
+from common import errors,keys
+
+'''lala我是卖报的小行家'''
 
 
 def fetch_vcode(request):
@@ -13,9 +17,10 @@ def fetch_vcode(request):
     phonenum = request.GET.get('phonenum')  # 获取用户输入的手机号
     '''判断是否为一个合理的手机号'''
     if send_vcode(phonenum):
-        return JsonResponse({'code': 0, 'data': None})
+        return render_json()
     else:
-        return JsonResponse({'code': 1000, 'data': '验证码发送失败'})
+        # return JsonResponse({'code': 1000, 'data': '验证码发送失败'})
+        return render_json(data='验证码发送失败', code=errors.VCODE_FAILED)
 
 
 def submit_vcode(request):
@@ -23,8 +28,8 @@ def submit_vcode(request):
     phonenum = request.POST.get('phonenum')
     vcode = request.POST.get('vcode')
     '''比对缓存里的验证码'''
-    key = f'v_code{phonenum}'
-    cache_vcode = cache.get(key)
+    key = keys.VCODE_K % (phonenum)
+    cache_vcode = rds.get(key)
     if vcode and vcode == cache_vcode:
         try:
             user = User.objects.get(phonenum=phonenum)
@@ -34,9 +39,11 @@ def submit_vcode(request):
             user.nickname = phonenum
             user.save()
         request.session['user_id'] = user.id
-        return JsonResponse({'code': 0, 'data': user.to_dict()})
+        # return JsonResponse({'code': 0, 'data': user.to_dict()})
+        return render_json(data=user.to_dict())
     else:
-        return JsonResponse({'code': 1001, 'data': '验证码错误'})
+        # return JsonResponse({'code': 1001, 'data': '验证码错误'})
+        return render_json(data='验证码错误', code=errors.VCODE_ERR)
 
 
 def show_profile(request):
@@ -44,7 +51,8 @@ def show_profile(request):
     user = User.objects.get(id=user_id)
     profile = user.get_profile
 
-    return JsonResponse({'code': 0, 'data': profile.to_dict()})
+    # return JsonResponse({'code': 0, 'data': profile.to_dict()})
+    return render_json(data=profile.to_dict(), code=errors.OK)
 
 
 def update_profile(request):
@@ -54,34 +62,30 @@ def update_profile(request):
     profile_form = Profileform(request.POST)
     '''验证这两个数据（类字典）的有效性'''
     if user_form.is_valid() and profile_form.is_valid():
-        user_id=request.session.get('user_id')
+        user_id = request.session.get('user_id')
         User.objects.filter(id=user_id).update(**user_form.cleaned_data)
-        Profile.objects.get_or_create(id=user_id,defaults=profile_form.cleaned_data)
-        return JsonResponse({'code':0,'data':'修改成功'})
+        Profile.objects.get_or_create(id=user_id, defaults=profile_form.cleaned_data)
+        return render_json()
     else:
-        err={}
+        err = {}
         err.update(user_form.errors)
         err.update(profile_form.errors)
-        return JsonResponse({'code':1003,'data':err})
+        return render_json(data=err, code=errors.PROFILE_ERR)
+        # return JsonResponse({'code':1003,'data':err})
 
 
 def qn_token(request):
-    user_id=request.session.get('user_id')
-    filename=f'Avatar-{user_id}'
+    user_id = request.session.get('user_id')
+    filename = f'Avatar-{user_id}'
     token = gen_token(user_id, filename)
-    return JsonResponse({'code':0,
-                         'data':{
-                             'token':token,
-                             'key':filename
-                         }
-                     })
-
+    return render_json(data={'token': token, 'key': filename}, code=errors.OK)
 
 
 def qn_callback(request):
-    uid=request.POST.get('uid')
-    key=request.POST.get('key')
-    avatar_url=get_res_url(key)
+    uid = request.POST.get('uid')
+    key = request.POST.get('key')
+    avatar_url = get_res_url(key)
     '''将保存在七牛云上头像地址，保存到数据库'''
     User.objects.filter(id=uid).update(avatar=avatar_url)
-    return JsonResponse({'code':0,'data':avatar_url})
+    # return JsonResponse({'code':0,'data':avatar_url})
+    return render_json(data=avatar_url, code=errors.OK)
