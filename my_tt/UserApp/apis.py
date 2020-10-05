@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from UserApp.logics import send_vcode
-from libs.Redis import rds
+from libs.redis_cache import rds
 from UserApp.models import User, Profile
 from UserApp.forms import Userform
 from UserApp.forms import Profileform
@@ -15,12 +15,14 @@ from common import errors,keys
 def fetch_vcode(request):
     '''给用户发送验证码'''
     phonenum = request.GET.get('phonenum')  # 获取用户输入的手机号
-    '''判断是否为一个合理的手机号'''
-    if send_vcode(phonenum):
-        return render_json()
-    else:
-        # return JsonResponse({'code': 1000, 'data': '验证码发送失败'})
-        return render_json(data='验证码发送失败', code=errors.VCODE_FAILED)
+    send_vcode.delay(phonenum)
+    return render_json()
+    # '''判断是否为一个合理的手机号'''
+    # if send_vcode(phonenum):
+    #     pass
+    # else:
+    #     # return JsonResponse({'code': 1000, 'data': '验证码发送失败'})
+    #     return render_json(data='验证码发送失败', code=errors.VCODE_FAILED)
 
 
 def submit_vcode(request):
