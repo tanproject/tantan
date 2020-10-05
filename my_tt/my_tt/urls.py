@@ -16,15 +16,24 @@ Including another URLconf
 # from django.contrib import admin
 from django.urls import path
 from UserApp import apis as user_api
+from SocialApp import apis as social_api
 from home import views
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('',views.index),
-
+    # 用户模块接口
     path('api/user/vcode/fetch', user_api.fetch_vcode),
     path('api/user/vcode/submit',user_api.submit_vcode),
     path('api/user/profile/show',user_api.show_profile),
     path('api/user/profile/update',user_api.update_profile),
     path('qiniu/token',user_api.qn_token),
     path('qiniu/callback',user_api.qn_callback),
+
+    #   社交模块接口
+    path('api/social/rcmd', social_api.rcmd_users),
+    path('api/social/like', social_api.like),
+    path('api/social/superlike', social_api.superlike),
+    path('api/social/dislike', social_api.dislike),
+    path('api/social/rewind', social_api.rewind),
+    path('api/social/fans', social_api.show_fans),
 ]

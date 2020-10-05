@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'UserApp',
+    'SocialApp',
 ]
 
 ROOT_URLCONF = 'my_tt.urls'
