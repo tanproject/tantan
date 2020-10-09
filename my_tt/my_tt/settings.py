@@ -68,6 +68,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'common.middleware.LoginRequiredMiddleware',  # 登录验证中间件
+    'common.middleware.LogicErrMiddleware', #逻辑异常处理中间件
 
 ]
 

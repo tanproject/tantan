@@ -37,3 +37,4 @@ urlpatterns = [
     path('api/social/rewind', social_api.rewind),
     path('api/social/fans', social_api.show_fans),
 ]
+

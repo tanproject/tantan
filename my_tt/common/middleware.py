@@ -1,6 +1,9 @@
 from django.http import JsonResponse
 from django.utils.deprecation import MiddlewareMixin
 
+from common import errors
+from libs.http import render_json
+
 '''登录需求中间件'''
 
 
@@ -22,4 +25,12 @@ class LoginRequiredMiddleware(MiddlewareMixin):
             '''获取并检查session的user_id'''
             user_id = request.session.get('user_id')
             if not user_id:
-                return JsonResponse({'code':1002,'data':"用户未登录！"})
+                return JsonResponse({'code': 1002, 'data': "用户未登录！"})
+
+
+
+class LogicErrMiddleware(MiddlewareMixin):
+    '''逻辑异常处理中间件'''
+    def process_exception(self, request, exception):
+        if isinstance(exception, errors.LogicErr):
+            return render_json(data=exception.data, code=exception.code)
