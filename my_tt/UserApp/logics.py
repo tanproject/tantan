@@ -30,5 +30,5 @@ def send_vcode(phonenum):
         else:
             vcode = str(random.randint(100000, 999999))
             '''需要将上面的验证码添加到缓存，并且多给些时间'''
-            rds.set(key,vcode)
+            rds.set(key,vcode,600)
             return send_msg(phonenum,vcode)

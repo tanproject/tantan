@@ -44,8 +44,8 @@ def submit_vcode(request):
         # return JsonResponse({'code': 0, 'data': user.to_dict()})
         return render_json(data=user.to_dict())
     else:
-        # return JsonResponse({'code': 1001, 'data': '验证码错误'})
-        return render_json(data='验证码错误', code=errors.VCODE_ERR)
+        raise errors.VcodeErr()
+        # return render_json(data='验证码错误', code=errors.VCODE_ERR)
 
 
 def show_profile(request):
@@ -53,8 +53,8 @@ def show_profile(request):
     user = User.objects.get(id=user_id)
     profile = user.get_profile
 
+    return render_json(data=profile.to_dict())
     # return JsonResponse({'code': 0, 'data': profile.to_dict()})
-    return render_json(data=profile.to_dict(), code=errors.OK)
 
 
 def update_profile(request):
@@ -66,13 +66,14 @@ def update_profile(request):
     if user_form.is_valid() and profile_form.is_valid():
         user_id = request.session.get('user_id')
         User.objects.filter(id=user_id).update(**user_form.cleaned_data)
-        Profile.objects.get_or_create(id=user_id, defaults=profile_form.cleaned_data)
+        Profile.objects.update_or_create(id=user_id, defaults=profile_form.cleaned_data)
         return render_json()
     else:
         err = {}
         err.update(user_form.errors)
         err.update(profile_form.errors)
-        return render_json(data=err, code=errors.PROFILE_ERR)
+        raise errors.ProfileErr(data=err)
+        # return render_json(data=err, code=errors.PROFILE_ERR)
         # return JsonResponse({'code':1003,'data':err})
 
 
@@ -80,7 +81,7 @@ def qn_token(request):
     user_id = request.session.get('user_id')
     filename = f'Avatar-{user_id}'
     token = gen_token(user_id, filename)
-    return render_json(data={'token': token, 'key': filename}, code=errors.OK)
+    return render_json(data={'token': token, 'key': filename})
 
 
 def qn_callback(request):
@@ -89,5 +90,5 @@ def qn_callback(request):
     avatar_url = get_res_url(key)
     '''将保存在七牛云上头像地址，保存到数据库'''
     User.objects.filter(id=uid).update(avatar=avatar_url)
+    return render_json(data=avatar_url)
     # return JsonResponse({'code':0,'data':avatar_url})
-    return render_json(data=avatar_url, code=errors.OK)

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'UserApp',
+    'SocialApp',
 ]
 
 ROOT_URLCONF = 'my_tt.urls'
@@ -67,6 +68,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'common.middleware.LoginRequiredMiddleware',  # 登录验证中间件
+    'common.middleware.LogicErrMiddleware', #逻辑异常处理中间件
 
 ]
 

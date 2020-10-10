@@ -9,7 +9,7 @@ class Redis(_Redis):
     def set(self, name, value, ex=None, px=None, nx=False, xx=False):
         '''带序列化处理的set方法'''
         pickled_data=pickle.dumps(value,pickle.HIGHEST_PROTOCOL)
-        return super().set(name,pickled_data,ex,nx,xx)
+        return super().set(name,pickled_data,ex,px,nx,xx)
 
     def get(self, name,default=None):
         '''带序列化处理的get方法'''

@@ -21,3 +21,7 @@ REDIS = {
     'port': 6379,
     'db': 2,
 }
+
+'''反悔条件配置'''
+REWIND_TIMES = 3  # 每日反悔次数
+REWIND_TIMEOUT = 5 * 60  # 反悔超时时间

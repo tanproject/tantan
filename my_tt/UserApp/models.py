@@ -8,7 +8,6 @@ class User(models.Model):
         ('female', '女'),
         ('unknow', '未知'),
     )
-<<<<<<< HEAD
     LOCATIONS = (
         ('北京', '北京'),
         ('上海', '上海'),
@@ -18,8 +17,6 @@ class User(models.Model):
         ("武汉", "武汉"),
         ("沈阳", "沈阳")
     )
-=======
->>>>>>> 1842f83a6a852b5e182b58d487f57075cc926635
     phonenum = models.CharField(max_length=16, unique=True, verbose_name='手机号')
     nickname = models.CharField(max_length=20, db_index=True, verbose_name='昵称')
     gender = models.CharField(max_length=10, choices=genders, default='male', verbose_name='性别')
