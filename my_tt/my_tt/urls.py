@@ -36,5 +36,6 @@ urlpatterns = [
     path('api/social/dislike', social_api.dislike),
     path('api/social/rewind', social_api.rewind),
     path('api/social/fans', social_api.show_fans),
+    path('api/social/friends', social_api.show_friends)
 ]
 

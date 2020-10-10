@@ -7,6 +7,7 @@ from libs.cache import rds
 from common import keys, errors
 
 from django.db.transaction import atomic
+from django.db.models import Q
 
 
 def rcmd_from_list(user_id):
@@ -141,7 +142,22 @@ def show_like_me(user_id):
 
     '''找出喜欢或超级喜欢我的人，附加条件：排除那些我划过的人'''
     fans_id_list = Swiped.objects.filter(sid=user_id, stype__in=['like', 'superlike']) \
-                                 .exclude(user_id__in=sid_list)\
-                                 .values_list('user_id', flat=True)
+        .exclude(user_id__in=sid_list) \
+        .values_list('user_id', flat=True)
     fans = User.objects.filter(id__in=fans_id_list)
     return fans
+
+
+def show_my_friend(uid):
+    '''查找自己所有好友的ID'''
+    condition = Q(user_id1=uid) | Q(user_id2=uid)
+    friends_id_list = []
+    for friend in Friend.objects.filter(condition):
+        if friend.user_id1 == uid:
+            friends_id_list.append(friend.user_id2)
+        else:
+            friends_id_list.append(friend.user_id1)
+
+    all_friends=User.objects.filter(id__in=friends_id_list)
+
+    return all_friends

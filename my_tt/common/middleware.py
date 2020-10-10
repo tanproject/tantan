@@ -26,6 +26,8 @@ class LoginRequiredMiddleware(MiddlewareMixin):
             user_id = request.session.get('user_id')
             if not user_id:
                 return JsonResponse({'code': 1002, 'data': "用户未登录！"})
+            else:
+                request.uid=user_id
 
 
 
