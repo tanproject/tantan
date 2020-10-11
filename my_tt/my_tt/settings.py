@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'UserApp',
     'SocialApp',
+    'VipApp',
 ]
 
 ROOT_URLCONF = 'my_tt.urls'

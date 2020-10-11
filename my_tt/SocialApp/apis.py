@@ -1,6 +1,6 @@
 from libs.http import render_json
 from SocialApp import logics
-from common import errors
+from VipApp.logics import perm_required
 
 
 def rcmd_users(request):
@@ -18,7 +18,7 @@ def like(request):
     is_matched = logics.like_someone(user_id, sid)
     return render_json(data={'is_match': is_matched})
 
-
+@perm_required('superlike')
 def superlike(request):
     '''超级喜欢（上滑）'''
     user_id = int(request.session.get('user_id'))
@@ -34,14 +34,14 @@ def dislike(request):
     logics.dislike_someone(user_id, sid)
     return render_json()
 
-
+@perm_required('rewind')
 def rewind(request):
     '''反悔（单独按钮）'''
     user_id = int(request.session.get('user_id'))
     logics.rewind_last_swiped(user_id)
     return render_json()
 
-
+@perm_required('show_fans')
 def show_fans(request):
     '''查看喜欢过我的人'''
     user_id = int(request.session.get('user_id'))
