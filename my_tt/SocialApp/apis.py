@@ -2,7 +2,7 @@ from libs.http import render_json
 from SocialApp import logics
 from VipApp.logics import perm_required
 
-print('wode ai')
+
 def rcmd_users(request):
     '''获取推荐用户'''
     user_id = request.session.get('user_id')
