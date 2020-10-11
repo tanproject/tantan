@@ -33,6 +33,7 @@ def dislike(request):
     sid = int(request.POST.get('sid'))
     logics.dislike_someone(user_id, sid)
     return render_json()
+print('ss')
 
 @perm_required('rewind')
 def rewind(request):
