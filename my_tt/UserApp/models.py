@@ -1,11 +1,27 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 <<<<<<< develop
+>>>>>>> origin/master
+=======
+<<<<<<< develop
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 import datetime
 
 from django.db import models
 from VipApp.models import Vip, Permission, Vip_Permission_Relation
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 =======
 from django.db import models
 >>>>>>> master
+>>>>>>> origin/master
+=======
+=======
+from django.db import models
+>>>>>>> master
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 
 
 # Create your models here.
@@ -30,16 +46,34 @@ class User(models.Model):
     birthday = models.DateField(default='2002-01-01', verbose_name='出生日')
     avatar = models.CharField(max_length=256, verbose_name='个人形象')
     location = models.CharField(max_length=10, default='上海', verbose_name='常居地')
+<<<<<<< HEAD
+<<<<<<< HEAD
+    vip_id = models.IntegerField(default=1, verbose_name='vip的id')
+    vip_end = models.DateTimeField(default='3000-01-01', verbose_name='会员到期时间')
+=======
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 <<<<<<< develop
     vip_id = models.IntegerField(default=1, verbose_name='vip的id')
     vip_end = models.DateTimeField(default='3000-01-01', verbose_name='会员到期时间')
 =======
 >>>>>>> master
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 
     class Meta:
         db_table = 'user'
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 <<<<<<< develop
+>>>>>>> origin/master
+=======
+<<<<<<< develop
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
     @property  # 使实例方法成为类属性，实例对象也可调用类方法
     def get_profile(self):
         '''判断self身上是否有这个属性，如果没有说明是第一次，正常查询数据库，如果有就不必再次查询数据库，直接在属性例获取'''
@@ -67,6 +101,11 @@ class User(models.Model):
         self._vip = vip
         self.save()
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 =======
     @property  #使实例方法成为类属性，实例对象也可调用类方法
     def get_profile(self):
@@ -77,6 +116,10 @@ class User(models.Model):
         return self.profile
 
 >>>>>>> master
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
     def to_dict(self):
         return {
             'id': self.id,
