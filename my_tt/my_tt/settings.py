@@ -40,13 +40,19 @@ INSTALLED_APPS = [
     'UserApp',
     'SocialApp',
 <<<<<<< HEAD
+<<<<<<< HEAD
     'VipApp',
 =======
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 <<<<<<< develop
     'VipApp',
 =======
 >>>>>>> master
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 ]
 
 ROOT_URLCONF = 'my_tt.urls'

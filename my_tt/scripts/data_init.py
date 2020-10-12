@@ -19,14 +19,20 @@ django.setup()
 
 from UserApp.models import User
 <<<<<<< HEAD
+<<<<<<< HEAD
 from VipApp.models import Vip, Permission, Vip_Permission_Relation
 =======
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 <<<<<<< develop
 from VipApp.models import Vip, Permission, Vip_Permission_Relation
 =======
 # from vip.models import Vip, Permission, VipPermRelation
 >>>>>>> master
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 
 
 last_names = (
@@ -92,9 +98,13 @@ def create_robots(n):
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< develop
 >>>>>>> origin/master
+=======
+<<<<<<< develop
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 def init_permission():
     '''创建权限模型'''
     permissions = (
@@ -170,7 +180,10 @@ def create_vip_data():
     init_vip()
     create_vip_perm_relations()
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 =======
 # def init_permission():
 #     '''创建权限模型'''
@@ -247,7 +260,10 @@ def create_vip_data():
 #     init_vip()
 #     create_vip_perm_relations()
 >>>>>>> master
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 
 
 if __name__ == '__main__':
@@ -257,9 +273,12 @@ if __name__ == '__main__':
         if command == 'create_robots':
             create_robots(1000)
 <<<<<<< HEAD
+<<<<<<< HEAD
         elif command == 'create_vip':
             create_vip_data()
 =======
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 <<<<<<< develop
         elif command == 'create_vip':
             create_vip_data()
@@ -267,18 +286,27 @@ if __name__ == '__main__':
         # elif command == 'create_vip':
         #     create_vip_data()
 >>>>>>> master
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
         else:
             print('未知的命令')
             sys.exit(2)
     else:
         create_robots(1000)
 <<<<<<< HEAD
+<<<<<<< HEAD
         create_vip_data()
 =======
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 <<<<<<< develop
         create_vip_data()
 =======
         # create_vip_data()
 >>>>>>> master
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+>>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
