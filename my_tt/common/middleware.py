@@ -23,7 +23,7 @@ class LoginRequiredMiddleware(MiddlewareMixin):
             return
         else:
             '''获取并检查session的user_id'''
-            user_id = request.session.get('user_id')
+            user_id = int(request.session.get('user_id'))
             if not user_id:
                 return JsonResponse({'code': 1002, 'data': "用户未登录！"})
             else:
