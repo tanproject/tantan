@@ -9,7 +9,8 @@ env.bak/
 venv.bak/
 # C extensions
 *.so
-
+*.log
+logs/
 # Distribution / packaging
 .Python
 build/

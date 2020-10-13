@@ -1,4 +1,5 @@
-from django.http import JsonResponse
+import logging
+
 from UserApp.logics import send_vcode
 from libs.redis_cache import rds
 from UserApp.models import User, Profile
@@ -9,7 +10,7 @@ from libs.qiniu_cloud import get_res_url
 from libs.http import render_json
 from common import errors,keys
 
-'''lala我是卖报的小行家'''
+info_log=logging.getLogger('inf')
 
 
 def fetch_vcode(request):
@@ -35,11 +36,13 @@ def submit_vcode(request):
     if vcode and vcode == cache_vcode:
         try:
             user = User.objects.get(phonenum=phonenum)
+            info_log.info(f'user login:{user.id}-{user.phonenum}')
         except User.DoesNotExist:
             user = User()
             user.phonenum = phonenum
             user.nickname = phonenum
             user.save()
+            info_log.info(f'user register:{user.id}-{user.phonenum}')
         request.session['user_id'] = user.id
         # return JsonResponse({'code': 0, 'data': user.to_dict()})
         return render_json(data=user.to_dict())

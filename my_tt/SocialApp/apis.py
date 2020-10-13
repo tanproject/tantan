@@ -16,6 +16,7 @@ def like(request):
     is_matched = logics.like_someone(request.uid, sid)
     return render_json(data={'is_match': is_matched})
 
+
 @perm_required('superlike')
 def superlike(request):
     '''超级喜欢（上滑）'''
@@ -36,6 +37,7 @@ def rewind(request):
     '''反悔（单独按钮）'''
     logics.rewind_last_swiped(request.uid)
     return render_json()
+
 
 @perm_required('show_fans')
 def show_fans(request):

@@ -1,3 +1,4 @@
+import logging
 import re
 import random
 import json
@@ -5,7 +6,7 @@ from libs.redis_cache import rds
 from libs.message import send_msg
 from common import keys
 from tasks import celery_app
-
+info_log=logging.getLogger('inf')
 
 
 
@@ -31,4 +32,5 @@ def send_vcode(phonenum):
             vcode = str(random.randint(100000, 999999))
             '''需要将上面的验证码添加到缓存，并且多给些时间'''
             rds.set(key,vcode,600)
+            info_log.info(f'已向手机号是{phonenum}的用户，发送了验证码：{vcode}')
             return send_msg(phonenum,vcode)

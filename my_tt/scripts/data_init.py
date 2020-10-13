@@ -18,21 +18,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'my_tt.settings')
 django.setup()
 
 from UserApp.models import User
-<<<<<<< HEAD
-<<<<<<< HEAD
 from VipApp.models import Vip, Permission, Vip_Permission_Relation
-=======
-=======
->>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
-<<<<<<< develop
-from VipApp.models import Vip, Permission, Vip_Permission_Relation
-=======
-# from vip.models import Vip, Permission, VipPermRelation
->>>>>>> master
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 
 
 last_names = (
@@ -97,14 +83,6 @@ def create_robots(n):
             pass
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< develop
->>>>>>> origin/master
-=======
-<<<<<<< develop
->>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 def init_permission():
     '''创建权限模型'''
     permissions = (
@@ -179,91 +157,6 @@ def create_vip_data():
     init_permission()
     init_vip()
     create_vip_perm_relations()
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
-=======
-# def init_permission():
-#     '''创建权限模型'''
-#     permissions = (
-#         ('vipflag', '会员身份标识'),
-#         ('superlike', '超级喜欢'),
-#         ('rewind', '反悔功能'),
-#         ('anylocation', '任意更改定位'),
-#         ('unlimit_like', '无限喜欢次数'),
-#         ('show_fans', '查看喜欢过我的人'),
-#     )
-#
-#     for name, desc in permissions:
-#         perm, _ = Permission.objects.get_or_create(name=name, description=desc)
-#         print('create permission %s' % perm.name)
-#
-#
-# def init_vip():
-#     vip_data = (
-#         ('非会员', 0, 36500, 0),
-#
-#         ('青铜会员(月卡)', 1, 30, 10),
-#         ('青铜会员(半年卡)', 1, 180, 50),
-#         ('青铜会员(年卡)', 1, 365, 90),
-#
-#         ('白银会员(月卡)', 2, 30, 20),
-#         ('白银会员(半年卡)', 2, 180, 100),
-#         ('白银会员(年卡)', 2, 365, 180),
-#
-#         ('黄金会员(月卡)', 3, 30, 40),
-#         ('黄金会员(半年卡)', 3, 180, 220),
-#         ('黄金会员(年卡)', 3, 365, 360),
-#     )
-#     for name, level, dur, price in vip_data:
-#         vip, _ = Vip.objects.get_or_create(
-#             name=name,
-#             level=level,
-#             duration=dur,
-#             price=price
-#         )
-#         print('create %s' % vip.name)
-#
-#
-# def create_vip_perm_relations():
-#     '''创建 Vip 和 Permission 的关系'''
-#     # 获取权限
-#     vipflag = Permission.objects.get(name='vipflag')
-#     superlike = Permission.objects.get(name='superlike')
-#     rewind = Permission.objects.get(name='rewind')
-#     anylocation = Permission.objects.get(name='anylocation')
-#     unlimit_like = Permission.objects.get(name='unlimit_like')
-#     show_fans = Permission.objects.get(name='show_fans')
-#
-#     # 给 VIP 1 分配权限
-#     VipPermRelation.objects.get_or_create(vip_level=1, perm_id=vipflag.id)
-#     VipPermRelation.objects.get_or_create(vip_level=1, perm_id=superlike.id)
-#
-#     # 给 VIP 2 分配权限
-#     VipPermRelation.objects.get_or_create(vip_level=2, perm_id=vipflag.id)
-#     VipPermRelation.objects.get_or_create(vip_level=2, perm_id=superlike.id)
-#     VipPermRelation.objects.get_or_create(vip_level=2, perm_id=rewind.id)
-#
-#     # 给 VIP 3 分配权限
-#     VipPermRelation.objects.get_or_create(vip_level=3, perm_id=vipflag.id)
-#     VipPermRelation.objects.get_or_create(vip_level=3, perm_id=superlike.id)
-#     VipPermRelation.objects.get_or_create(vip_level=3, perm_id=rewind.id)
-#     VipPermRelation.objects.get_or_create(vip_level=3, perm_id=anylocation.id)
-#     VipPermRelation.objects.get_or_create(vip_level=3, perm_id=unlimit_like.id)
-#     VipPermRelation.objects.get_or_create(vip_level=3, perm_id=show_fans.id)
-#
-#
-# def create_vip_data():
-#     init_permission()
-#     init_vip()
-#     create_vip_perm_relations()
->>>>>>> master
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
 
 
 if __name__ == '__main__':
@@ -272,41 +165,11 @@ if __name__ == '__main__':
         command = sys.argv[1]
         if command == 'create_robots':
             create_robots(1000)
-<<<<<<< HEAD
-<<<<<<< HEAD
         elif command == 'create_vip':
             create_vip_data()
-=======
-=======
->>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
-<<<<<<< develop
-        elif command == 'create_vip':
-            create_vip_data()
-=======
-        # elif command == 'create_vip':
-        #     create_vip_data()
->>>>>>> master
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
         else:
             print('未知的命令')
             sys.exit(2)
     else:
         create_robots(1000)
-<<<<<<< HEAD
-<<<<<<< HEAD
         create_vip_data()
-=======
-=======
->>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2
-<<<<<<< develop
-        create_vip_data()
-=======
-        # create_vip_data()
->>>>>>> master
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> 08352b3758e7a28c60a8e8297c32a8b19b54dab2

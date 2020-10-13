@@ -1,8 +1,12 @@
+import logging
+
 from django.http import JsonResponse
 from django.utils.deprecation import MiddlewareMixin
 
 from common import errors
 from libs.http import render_json
+
+err_log=logging.getLogger('err')
 
 '''登录需求中间件'''
 
@@ -35,4 +39,5 @@ class LogicErrMiddleware(MiddlewareMixin):
     '''逻辑异常处理中间件'''
     def process_exception(self, request, exception):
         if isinstance(exception, errors.LogicErr):
+            err_log.error(f'逻辑异常:{exception.code}-{exception.data}')
             return render_json(data=exception.data, code=exception.code)
