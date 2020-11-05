@@ -1,5 +1,6 @@
 from django.db.models import query
-from django.db.models import base
+from django.db import models
+import datetime
 
 from libs.cache import rds
 from common.keys import MODEL_K
@@ -19,7 +20,6 @@ def get(self, *args, **kwargs):
         if isinstance(model_obj, self.model):
             print('数据来自缓存')
             return model_obj
-
 
     '''主键不在，说明缓存里没有，只能从数据库里取'''
     model_obj = self._get(*args, **kwargs)
@@ -50,11 +50,28 @@ def save(self, force_insert=False, force_update=False, using=None,
     print('数据保存好了，我把对象加到缓存里')
 
 
+def to_dict(self, exclude=()):
+    '''将对象属性添加到字典里'''
+    attr_data = {}
+
+    '''找到对象身上所有的字段名称'''
+    for f in self._meta.fields:
+        if f.attname in exclude:  # 判断字段是否需要排除
+            continue
+        value = getattr(self, f.attname)  # 找到字段名对应的值
+        '''由于datetime类型的值无法json序列化，因此要将它强转为字符串'''
+        if isinstance(value, (datetime.datetime, datetime.date)):
+            value = str(value)
+        attr_data[f.attname] = value
+    return attr_data
+
+
 def path_orm():
     '''通过猴子补丁的方式为ORM增加缓存处理'''
     query.QuerySet._get = query.QuerySet.get
     query.QuerySet.get = get
 
+    models.Model._save = models.Model.save
+    models.Model.save = save
 
-    base.Model._save = base.Model.save
-    base.Model.save = save
+    models.Model.to_dict = to_dict

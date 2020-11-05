@@ -7,7 +7,7 @@ from my_tt import config
 def rcmd_users(request):
     '''获取推荐用户'''
     users = logics.rcmd(request.uid)
-    users_list = [user.to_dict() for user in users]
+    users_list = [user.to_dict(exclude=['phonenum']) for user in users]
     return render_json(data=users_list)
 
 
@@ -44,7 +44,7 @@ def rewind(request):
 def show_fans(request):
     '''查看喜欢过我的人'''
     fans = logics.show_like_me(request.uid)
-    fans_data = [fan.to_dict() for fan in fans]
+    fans_data = [fan.to_dict(exclude=['phonenum']) for fan in fans]
     return render_json(data=fans_data)
 
 
