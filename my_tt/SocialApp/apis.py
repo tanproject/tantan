@@ -1,6 +1,7 @@
 from libs.http import render_json
 from SocialApp import logics
 from VipApp.logics import perm_required
+from my_tt import config
 
 
 def rcmd_users(request):
@@ -52,3 +53,8 @@ def show_friends(request):
     all_friends = logics.show_my_friend(uid)
     friends_list = [f.to_dict() for f in all_friends]
     return render_json(data=friends_list)
+
+
+def ranking_list(request):
+    rank_date=logics.get_rank_list(config.RANK_NUM)
+    return render_json(data=rank_date)

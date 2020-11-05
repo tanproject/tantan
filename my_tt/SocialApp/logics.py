@@ -61,6 +61,9 @@ def like_someone(user_id, sid):
     '''在自己的优先推荐列表里删除对方id'''
     rds.lrem(keys.PRIOR_RCMD_LIST % user_id, value=sid)
 
+    '''喜欢对方，给对方的增加分数'''
+    rds.zincrby(keys.HOT_RANK, sid, config.RANK_SCORE['like'])
+
     '''检查对方是否上滑（superlike）或右滑（like）过你'''
     liked = Swiped.is_liked(user_id, sid)
     if liked is True:
@@ -81,6 +84,9 @@ def superlike_someone(user_id, sid):
     '''在自己的优先推荐列表里删除对方id'''
     rds.lrem(keys.PRIOR_RCMD_LIST % user_id, value=sid)
 
+    '''超级喜欢对方，给对方的增加积分'''
+    rds.zincrby(keys.HOT_RANK, sid, config.RANK_SCORE['superlike'])
+
     '''检查对方是否上滑（superlike）或右滑（like）过你'''
     liked = Swiped.is_liked(user_id, sid)
     if liked is True:  # 对方喜欢你
@@ -100,6 +106,9 @@ def superlike_someone(user_id, sid):
 def dislike_someone(user_id, sid):
     '''添加滑动记录'''
     Swiped.objects.create(user_id=user_id, sid=sid, stype='dislike')
+
+    '''不喜欢对方，给对方的增加分数'''
+    rds.zincrby(keys.HOT_RANK, sid, config.RANK_SCORE['dislike'])
 
     '''删除自己Redis缓存的优先推荐列表里，对方的id'''
     rds.lrem(keys.PRIOR_RCMD_LIST % user_id, value=sid)
@@ -135,6 +144,9 @@ def rewind_last_swiped(user_id):
         # 今日反悔次数加一
         rds.set(rewind_key, rewind_times + 1, 86500)  # 缓存过期时间为一天零100秒
 
+        '''撤回最后一次滑动所改变的对方的积分，'''
+        rds.zincrby(keys.HOT_RANK, last_swpied.sid, -config.RANK_SCORE[last_swpied.stype])
+
 
 def show_like_me(user_id):
     '''找出自己滑过的人'''
@@ -158,6 +170,24 @@ def show_my_friend(uid):
         else:
             friends_id_list.append(friend.user_id1)
 
-    all_friends=User.objects.filter(id__in=friends_id_list)
+    all_friends = User.objects.filter(id__in=friends_id_list)
 
     return all_friends
+
+
+def get_rank_list(RANK_NUM):
+    '''从有序集合里取出前10个数据组成一个列表[(b'678', 103.0),(b'43', 100.0),..]'''
+    data_list = rds.zrevrange(keys.HOT_RANK, 0, RANK_NUM - 1, withscores=True)
+    cleaned_list = [(int(uid), int(score)) for uid, score in data_list]  # 取出列表里的所有UID,score组成强转为int，
+    uid_list = [uid[0] for uid in cleaned_list]  # 所有UID组成列表
+    rank_users = User.objects.filter(id__in=uid_list)  # 这一组用户是以id升序的，需要以zset里的顺序为主
+    sorted_users = sorted(rank_users, key=lambda user: uid_list.index(user.id))
+    rank_data = []
+    for index, (_, score) in enumerate(cleaned_list):
+        rank = index + 1
+        user = sorted_users[index]
+        user_data = user.to_dict()
+        user_data['rank'] = rank
+        user_data['score'] = score
+        rank_data.append(user_data)
+    return rank_data

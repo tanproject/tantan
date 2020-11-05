@@ -52,10 +52,12 @@ def submit_vcode(request):
 
 
 def show_profile(request):
-    user_id = request.session.get('user_id')
-    user = User.objects.get(id=user_id)
-    profile = user.get_profile
-
+    user = User.objects.get(id=request.uid)
+    key='profile_k-%s' % user.id
+    profile=rds.get(key)
+    if profile is None:
+        profile = user.get_profile
+        rds.set(key,profile)
     return render_json(data=profile.to_dict())
     # return JsonResponse({'code': 0, 'data': profile.to_dict()})
 
@@ -67,9 +69,9 @@ def update_profile(request):
     profile_form = Profileform(request.POST)
     '''验证这两个数据（类字典）的有效性'''
     if user_form.is_valid() and profile_form.is_valid():
-        user_id = request.session.get('user_id')
-        User.objects.filter(id=user_id).update(**user_form.cleaned_data)
-        Profile.objects.update_or_create(id=user_id, defaults=profile_form.cleaned_data)
+        User.objects.filter(id=request.uid).update(**user_form.cleaned_data)
+        Profile.objects.update_or_create(id=request.uid, defaults=profile_form.cleaned_data)
+        User.objects.update()
         return render_json()
     else:
         err = {}
@@ -81,9 +83,8 @@ def update_profile(request):
 
 
 def qn_token(request):
-    user_id = request.session.get('user_id')
-    filename = f'Avatar-{user_id}'
-    token = gen_token(user_id, filename)
+    filename = f'Avatar-{request.uid}'
+    token = gen_token(request.uid, filename)
     return render_json(data={'token': token, 'key': filename})
 
 
