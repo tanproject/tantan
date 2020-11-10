@@ -1,4 +1,5 @@
 from django.db.models import query
+from django.db.models import base
 from django.db import models
 import datetime
 
@@ -71,6 +72,8 @@ def path_orm():
     query.QuerySet._get = query.QuerySet.get
     query.QuerySet.get = get
 
+    # base.Model._save = base.Model.save
+    # base.Model.save = save
     models.Model._save = models.Model.save
     models.Model.save = save
 

@@ -18,6 +18,7 @@ class LoginRequiredMiddleware(MiddlewareMixin):
         '/api/user/vcode/submit',
         '/qiniu/callback',
         '/',
+        'api/social/rank',
     ]
 
     def process_request(self, request):

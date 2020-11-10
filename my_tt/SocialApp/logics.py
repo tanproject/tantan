@@ -69,7 +69,6 @@ def like_someone(user_id, sid):
     if liked is True:
         '''如果对方也喜欢过你，将你们匹配为好友'''
         Friend.make_friends(user_id, sid)
-
         return True
     else:
         return False
@@ -186,8 +185,8 @@ def get_rank_list(RANK_NUM):
     for index, (_, score) in enumerate(cleaned_list):
         rank = index + 1
         user = sorted_users[index]
-        user_data = user.to_dict(exclude=['phonenum','birthday',
-                                          'location','vip_id','vip_end'])
+        user_data = user.to_dict(exclude=['phonenum', 'birthday',
+                                          'location', 'vip_id', 'vip_end'])
         user_data['rank'] = rank
         user_data['score'] = score
         rank_data.append(user_data)
